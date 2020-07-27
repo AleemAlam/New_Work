@@ -19,6 +19,30 @@ ITEM_STATUS = [
     ('active', 'active')
 ]
 
+
+class Category(models.Model):
+    name = models.CharField(max_length=150)
+    img = models.ImageField(upload_to="category_images/", blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = "categories"
+
+    def __str__(self):
+        return self.name
+
+
+class SubCategory(models.Model):
+    name = models.CharField(max_length=150)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    img = models.ImageField(upload_to="sub_category_images/", blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = "sub categories"
+
+    def __str__(self):
+        return self.name
+
+
 class Item(models.Model):
     name = models.CharField(max_length=150)
     price = models.IntegerField(default=0)
@@ -45,29 +69,6 @@ class Address(models.Model):
 
     def full_address(self):
         return f'{self.flat_no}, {self.street}, {self.area}, {self.locality}'
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=150)
-    img = models.ImageField(upload_to="category_images/", blank=True, null=True)
-
-    class Meta:
-        verbose_name_plural = "categories"
-
-    def __str__(self):
-        return self.name
-
-
-class SubCategory(models.Model):
-    name = models.CharField(max_length=150)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    img = models.ImageField(upload_to="sub_category_images/", blank=True, null=True)
-
-    class Meta:
-        verbose_name_plural = "sub categories"
-
-    def __str__(self):
-        return self.name
 
 
 class Phone(models.Model):
