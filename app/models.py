@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from decimal import Decimal
 
 
-
 ORDER_STATUS = [
     ('Cart', 'cart'),
     ('Cancelled', 'cancelled'),
