@@ -43,7 +43,17 @@ class SubCategory(models.Model):
         return self.name
 
 
+class SellerAccount(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    is_aproved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username
+
+
+
 class Item(models.Model):
+    seller = models.ForeignKey(SellerAccount, on_delete= models.CASCADE)
     name = models.CharField(max_length=150)
     price = models.IntegerField(default=0)
     minimum_order = models.IntegerField()
