@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block body %}
 <div align="center">
-<form style="text-align: left; width: 50%;" method="POST">
+<form style="text-align: left; width: 50%;" method="POST" enctype="multipart/form-data">
     <h1>Add Your New Product:</h1><br>
     {% csrf_token %}
 {{form|crispy}}

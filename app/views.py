@@ -4,6 +4,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from .forms import ItemForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 # Create your views here.
 
@@ -58,13 +60,16 @@ def seller_add_product(request):
     if request.user.is_authenticated and request.user.is_staff:    
         form = ItemForm()
         if request.method == 'POST':
-            form = ItemForm(request.POST)
+            form = ItemForm(request.POST, request.FILES)
             if form.is_valid():
                 item = form.save(commit=False)
                 item.seller = SellerAccount.objects.get(user=request.user)
-                item.img = request.POST['img']
                 item.save()
                 return redirect('dashboard')
+            else:
+                messages.error('Please Enetr Valid information')
+                return redirect('dashboard')
+                
         else:
             return render(request, 'addproduct.html', {'form': form})
     else:
@@ -75,11 +80,11 @@ def seller_edit_product(request, pk):
         item = get_object_or_404(Item, pk = pk, seller__user = request.user)
         form = ItemForm(instance=item)
         if request.method == 'POST':
-            form = ItemForm(request.POST, instance=item)
+            form = ItemForm(request.POST,  request.FILES,instance=item)
             if form.is_valid():
-                item = form.save(commit=False)
-                item.seller = SellerAccount.objects.get(user=request.user)
-                item.save()
+                edit_item = form.save(commit=False)
+                edit_item.seller = SellerAccount.objects.get(user=request.user)
+                edit_item.save()
                 return redirect('dashboard')
         else:
             return render(request, 'editproduct.html', {'form': form})
@@ -102,4 +107,6 @@ def seller_view_product(request, pk):
         return render(request, 'viewproduct.html', {'item': item})
     else:
         return redirect('login')
+
+
 

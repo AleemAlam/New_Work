@@ -8,6 +8,7 @@ td{
   }
 </style>
 <h1>Your All products:</h1>
+{% include 'messages.html' %}
 <a class="btn btn-success" href="{% url 'add_product' %}">Add product</a>
 <table class="table">
     <thead>
@@ -27,7 +28,7 @@ td{
         <th scope="row">{{item.id}}</th>
         <td>{{item.name}}</td>
         <td>{{item.price}}</td>
-        <td><img class="thumbnail" width="200" height="200" src="{{item.img.url}}" alt=""></td>
+        <td><img class="thumbnail" width="200" height="200" src="{{item.img.url}}" alt="{{item.img.url}}"></td>
         <td>{{item.description}}</td>
         <td>{{item.sub_category}}</td>
         <td scope="col">

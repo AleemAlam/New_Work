@@ -31,20 +31,8 @@ class Category(models.Model):
         return self.name
 
 
-class SubCategory(models.Model):
-    name = models.CharField(max_length=150)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    img = models.ImageField(upload_to="sub_category_images/", blank=True, null=True)
-
-    class Meta:
-        verbose_name_plural = "sub categories"
-
-    def __str__(self):
-        return self.name
-
-
 class SellerAccount(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name='seller', on_delete=models.CASCADE)
     is_aproved = models.BooleanField(default=False)
 
     def __str__(self):
@@ -53,14 +41,13 @@ class SellerAccount(models.Model):
 
 
 class Item(models.Model):
-    seller = models.ForeignKey(SellerAccount, on_delete= models.CASCADE)
+    seller = models.ForeignKey(SellerAccount, related_name='items', on_delete= models.CASCADE)
     name = models.CharField(max_length=150)
     price = models.IntegerField(default=0)
     minimum_order = models.IntegerField()
     img = models.ImageField(upload_to="item_images/", blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    rating = models.ManyToManyField(User)
-    sub_category = models.ForeignKey(SubCategory,on_delete=models.CASCADE,blank=True,null=True)
+    category = models.ForeignKey(Category,on_delete=models.CASCADE,blank=True,null=True)
     top_product = models.BooleanField(default=False)
     status = models.CharField(max_length=25, choices=ITEM_STATUS, blank=True, null=True)
 

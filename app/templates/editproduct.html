@@ -3,7 +3,7 @@
 
 {% block body %}
 <h1>Edit Your New Product</h1>
-<form action="" method="POST">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{form|crispy}}
 <button type="submit">submit</button>

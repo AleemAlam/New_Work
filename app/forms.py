@@ -10,6 +10,6 @@ class ItemForm(forms.ModelForm):
                 'minimum_order',
                 'img',
                 'description',
-                'sub_category',
+                'category',
                 'status',
             )
